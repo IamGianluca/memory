@@ -7,6 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+langchain = "^0.0.310"
+chromadb = "^0.4.13"
+pypdf = "^3.16.2"
+sentence-transformers = "^2.2.2"
 
 
 [build-system]

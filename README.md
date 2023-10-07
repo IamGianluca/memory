@@ -1,12 +1,12 @@
 ### Memory 
 
-`memory` is a personal Retrieval Augmented Generation tool. It is very much a pet project to learn more about RAG systems.
+`memory` is a personal Retrieval Augmented Generation (RAG) tool. It is very much a pet project to learn more about RAG systems.
 
 ### How to use
 
 ### How to contribute
 
-This is really a pet project to learn LlamaIndex, so I'm not expecting anyone to be seriously interested in contributing. That said, if you are, please respect this naming convention to tag your commits:
+This is really a pet project, so I'm not expecting anyone to be seriously interested in contributing. That said, if you are, please follow this naming convention to tag your commits:
 
 * API relevant changes:
     * `feat`: Commits that adds a new feature
@@ -23,5 +23,6 @@ This is really a pet project to learn LlamaIndex, so I'm not expecting anyone to
 
 ### Tools
 
-- Docker
-- [LlamaIndex](https://github.com/run-llama/llama_index)
+- [Docker](https://www.docker.com/)
+- [LangChain](https://github.com/langchain-ai/langchain)
+- [ChromaDB](https://github.com/chroma-core/chroma)
