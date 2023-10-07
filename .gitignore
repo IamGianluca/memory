@@ -1,1 +1,5 @@
+# documents
 *.pdf
+
+# vectordb
+chroma_db/
