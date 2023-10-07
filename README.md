@@ -1,4 +1,4 @@
-### Memory 
+### Memory 🧠
 
 `memory` is a personal Retrieval Augmented Generation (RAG) tool. It is very much a pet project to learn more about RAG systems.
 
