@@ -1,13 +1,20 @@
 from pathlib import Path
 
+from dotenv import load_dotenv
+from langchain.chains import LLMChain
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
+from langchain.llms import HuggingFaceHub
+from langchain.llms.base import LLM
+from langchain.prompts import PromptTemplate
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Chroma, VectorStore
 
+load_dotenv()  # take environment variables from .env.
 
 embedding_function = SentenceTransformerEmbeddings(model_name="BAAI/bge-large-en")
 VECTOR_DB_PATH = "./chroma_db"
+MODEL_PATH = "/Users/rlm/Desktop/Code/llama.cpp/models/llama-2-13b-chat.ggufv3.q4_0.bin"
 
 
 def index_data(embedding_function=embedding_function) -> VectorStore:

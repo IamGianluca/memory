@@ -462,6 +462,16 @@ marshmallow = ">=3.18.0,<4.0.0"
 typing-inspect = ">=0.4.0,<1"
 
 [[package]]
+name = "dotenv-python"
+version = "0.0.1"
+description = "Read .env(-ish) configuration file for python web applications."
+optional = false
+python-versions = "*"
+files = [
+    {file = "dotenv-python-0.0.1.zip", hash = "sha256:362e170ca8fd69a70c1aca1fda2ddad0ac270e161e81e59f4039ec11decc14fa"},
+]
+
+[[package]]
 name = "fastapi"
 version = "0.103.2"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
@@ -2866,4 +2876,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "1effc1481e0ce237dab542f28355ee4c5a06ee39dadfbf9863675069bf9576fd"
+content-hash = "32279276d740e64774c04ef0676c30d65b18e00143b78e85fdb4a40fc1372c43"
