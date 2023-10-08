@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from dotenv import load_dotenv
+import dotenv
 from langchain.chains import LLMChain
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
@@ -10,8 +10,8 @@ from langchain.prompts import PromptTemplate
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Chroma, VectorStore
 
-load_dotenv()  # take environment variables from .env.
 
+dotenv.load_dotenv()
 embedding_function = SentenceTransformerEmbeddings(model_name="BAAI/bge-large-en")
 VECTOR_DB_PATH = "./chroma_db"
 MODEL_PATH = "/Users/rlm/Desktop/Code/llama.cpp/models/llama-2-13b-chat.ggufv3.q4_0.bin"
@@ -47,14 +47,32 @@ def get_search_index() -> VectorStore:
 
 def main():
     search_index = get_search_index()
+    from langchain.chains import LLMChain
+    from langchain.llms import HuggingFaceHub
 
-    # query it
-    while True:
-        query = input("Input: ")
-        docs = search_index.similarity_search(query)
-        # print results
-        for doc in docs:
-            print(["".join(doc.page_content).replace("\n", "")])
+    from langchain.prompts import PromptTemplate
+
+    question = "Who won the FIFA World Cup in the year 1994? "
+    template = """Question: {question}
+
+    Answer: Let's think step by step."""
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+
+    repo_id = "google/flan-t5-xxl"  # See https://huggingface.co/models?pipeline_tag=text-generation&sort=downloads for some other options
+    llm = HuggingFaceHub(
+        repo_id=repo_id, model_kwargs={"temperature": 0.5, "max_length": 264}
+    )
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+
+    print(llm_chain.run(question))
+
+    # # query it
+    # while True:
+    #     query = input("Input: ")
+    #     docs = search_index.similarity_search(query)
+    #     # print results
+    #     for doc in docs:
+    #         print(["".join(doc.page_content).replace("\n", "")])
 
 
 if __name__ == "__main__":
