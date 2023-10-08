@@ -13,6 +13,8 @@ sentence-transformers = "^2.2.2"
 huggingface-hub = "^0.17.3"
 python-dotenv = "^1.0.0"
 chromadb = "^0.4.13"
+transformers = "^4.34.0"
+langchainhub = "^0.1.13"
 
 
 [build-system]
