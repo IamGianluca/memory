@@ -6,11 +6,17 @@ authors = ["Gianluca Rossi <gr.gianlucarossi@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 langchain = "^0.0.310"
-chromadb = "^0.4.13"
 pypdf = "^3.16.2"
+huggingface-hub = "^0.17.3"
+python-dotenv = "^1.0.0"
+chromadb = "^0.4.13"
+transformers = "^4.34.0"
+langchainhub = "^0.1.13"
+protobuf = "^4.24.4"
 sentence-transformers = "^2.2.2"
+torch = "^2.1.0"
 
 
 [build-system]

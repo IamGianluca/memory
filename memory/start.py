@@ -1,30 +1,19 @@
 from pathlib import Path
 
+import dotenv
+from langchain import hub
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
-from langchain.text_splitter import CharacterTextSplitter
+from langchain.llms import HuggingFacePipeline
+from langchain.schema.runnable import RunnablePassthrough
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma, VectorStore
 
 
+dotenv.load_dotenv()
 embedding_function = SentenceTransformerEmbeddings(model_name="BAAI/bge-large-en")
+DOCUMENTS_PATH = "./data"
 VECTOR_DB_PATH = "./chroma_db"
-
-
-def index_data(embedding_function=embedding_function) -> VectorStore:
-    # load the document and split it into chunks
-    loader = PyPDFLoader("~/Downloads/andrew-ng-machine-learning-yearning-1.pdf")
-    documents = loader.load()
-
-    # split it into chunks
-    text_splitter = CharacterTextSplitter(chunk_size=1_000, chunk_overlap=0)
-    docs = text_splitter.split_documents(documents)
-
-    # create the open-source embedding function
-
-    # load it into Chroma
-    return Chroma.from_documents(
-        docs, embedding_function, persist_directory=VECTOR_DB_PATH
-    )
 
 
 def get_search_index() -> VectorStore:
@@ -38,16 +27,39 @@ def get_search_index() -> VectorStore:
         return index_data()
 
 
+def index_data(embedding_function=embedding_function) -> VectorStore:
+    # load the document and split it into chunks
+    loader = PyPDFLoader("./data/andrew-ng-machine-learning-yearning-1.pdf")
+    documents = loader.load()
+
+    # split it into chunks
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=20)
+    chunks = text_splitter.split_documents(documents)
+
+    # load it into Chroma
+    return Chroma.from_documents(
+        chunks, embedding_function, persist_directory=VECTOR_DB_PATH
+    )
+
+
 def main():
     search_index = get_search_index()
+    retriever = search_index.as_retriever()
 
-    # query it
-    while True:
-        query = input("Input: ")
-        docs = search_index.similarity_search(query)
-        # print results
-        for doc in docs:
-            print(["".join(doc.page_content).replace("\n", "")])
+    rag_prompt = hub.pull("rlm/rag-prompt")
+    llm = HuggingFacePipeline.from_model_id(
+        model_id="bigscience/bloom-1b7",
+        task="text-generation",
+        model_kwargs={
+            "temperature": 0,
+            "max_length": 512,
+        },
+    )
+    rag_chain = (
+        {"context": retriever, "question": RunnablePassthrough()} | rag_prompt | llm
+    )
+
+    print(rag_chain.invoke("How is the author of this book?"))
 
 
 if __name__ == "__main__":
