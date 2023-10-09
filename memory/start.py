@@ -29,7 +29,7 @@ def get_search_index() -> VectorStore:
 
 def index_data(embedding_function=embedding_function) -> VectorStore:
     # load the document and split it into chunks
-    loader = PyPDFLoader("./data/andrew-ng-machine-learning-yearning-1.pdf")
+    loader = PyPDFLoader(DOCUMENTS_PATH)
     documents = loader.load()
 
     # split it into chunks
